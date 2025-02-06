@@ -2,8 +2,8 @@ import { loadRemoteModule } from '@angular-architects/module-federation';
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-    {path:'',redirectTo:'dashboard',pathMatch:'full'},
-    {path:'dashboard',
+    {path:'',redirectTo:'business-ops',pathMatch:'full'},
+    {path:'business-ops',
         loadChildren:() => loadRemoteModule({
         remoteEntry: 'http://localhost:4201/remoteEntry.js',
         type: 'module',

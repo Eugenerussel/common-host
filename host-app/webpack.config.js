@@ -6,8 +6,6 @@ module.exports = withModuleFederationPlugin({
 
   remotes: {
     dashboard: 'dashboard@http://localhost:4201/remoteEntry.js',  // Remote MFE URL
-    mfeClaims: 'mfeClaims@http://localhost:4202/remoteEntry.js',  // Remote MFE URL
-    mfeCallCenter: 'mfeCallcenter@http://localhost:4203/remoteEntry.js',  // Remote MFE URL
   },
 
   shared: {
