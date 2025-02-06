@@ -1,0 +1,74 @@
+<div class="container-fluid">
+  <!-- Fixed Header -->
+  <header class="navbar navbar-dark bg-dark px-3 fixed-top">
+    <a class="navbar-brand text-white" href="#">Health Insurance Portal</a>
+    <div class="d-flex align-items-center">
+      <div class="me-3 text-white text-end">
+        <span class="fw-bold d-block">{{ username }}</span> <!-- Username on top -->
+        <small class="text-secondary d-block">{{ role }}</small> <!-- Role underneath -->
+      </div>
+      <div class="dropdown">
+        <button class="btn btn-dark dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-person-circle"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+          <li>
+            <a class="dropdown-item" href="#" (click)="logout()">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </header>
+  
+
+  <!-- Main Layout with Sidebar and Content -->
+  <div class="row" style="margin-top: 56px;">
+    <!-- Sidebar Navigation -->
+<nav class="col-md-3 col-lg-2 d-md-block bg-dark sidebar position-fixed">
+  <div class="position-sticky">
+    <!-- Daily Operations Button (Fixed at Top) -->
+    <button class="daily-operations-btn" (click)="toggleMenu()">
+      Daily Operations
+    </button>
+
+    <!-- Sidebar Menu (Initially Hidden) -->
+    <ul class="nav flex-column mt-3" [ngClass]="{ 'd-none': !menuVisible }">
+      <li class="nav-item">
+        <a routerLink="/" class="nav-link text-white">
+          <i class="bi bi-house-door"></i> Home
+        </a>
+      </li>
+      <li *ngIf="role === 'admin' || role === 'agent'" class="nav-item">
+        <a routerLink="/mfe-policy/policy" class="nav-link text-white">
+          <i class="bi bi-file-text"></i> Policies
+        </a>
+      </li>
+      <li *ngIf="role === 'admin' || role === 'user'" class="nav-item">
+        <a routerLink="/mfe-claims/claims" class="nav-link text-white">
+          <i class="bi bi-clipboard"></i> Claims
+        </a>
+      </li>
+      <li *ngIf="role === 'admin' || role === 'support'" class="nav-item">
+        <a routerLink="/mfe-callcenter/callcenter" class="nav-link text-white">
+          <i class="bi bi-headset"></i> Call Center
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="margin-left: 16.666%; padding-top: 70px; position: relative;">
+      <!-- Business-Ops Button (Fixed in Viewport) -->
+      <button class="business-ops-btn" routerLink="/">
+        Business-ops
+      </button>
+    
+      <h1>Welcome to Health Insurance Portal</h1>
+      <router-outlet></router-outlet>
+    </main>
+    
+    
+    
+  </div>
+</div>
