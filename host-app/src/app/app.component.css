@@ -15,35 +15,27 @@
     transition: all 0.3s ease-in-out;
   }
   
-  .sidebar .nav-link:hover {
-    border: 2px solid white; /* White border on hover */
-    background: rgba(255, 255, 255, 0.1); /* Slight highlight effect */
-  }
-  
   .sidebar .nav-link i {
     margin-right: 8px; /* Adds spacing between icon and text */
   }
   .business-ops-btn {
-    position: absolute; /* Allows it to move with the page */
-    top: 20px; /* Initial position below the header */
-    left: 20px; /* Slightly away from the sidebar */
-    width: 250px; /* Wider button */
-    padding: 12px 25px; /* Better spacing */
-    background: white;
-    color: black;
-    border: 2px solid black;
-    border-radius: 50px; /* Capsule shape */
+    position: fixed;
+    top: 20px;
+    left: 300px;
+    color: white; /* Text in white */
     font-weight: bold;
-    text-align: center;
     cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2); /* Soft shadow */
+    z-index: 1050;
+    text-decoration: none; /* No underline */
+    background: none; /* Removes any button background */
+    border: none; /* No borders */
+    padding: 0; /* Removes padding */
 }
   
-  .business-ops-btn:hover {
-    background: black;
-    color: white;
+  .business-ops-btn.active {
+    text-decoration: underline; /* Underlined when active */
   }
+  
 
 /* Daily Operations Button (Fixed at Top) */
 .daily-operations-btn {
@@ -62,5 +54,93 @@
   background: black;
   color: white;
 }
+.daily-operations-btn.active {
+  background: black;
+  color: white;
+}
+/* Existing Styles */
+.nav-link {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav .nav-item {
+  transition: all 0.3s ease-in-out;
+}
+.nav .nav-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.nav .nav-item a {
+  border-radius: 10px;
+  padding: 8px 15px;
+}
+/* Styles for smaller submenus */
+.small-menu {
+  font-size: 0.85rem; /* Smaller font */
+  padding: 6px 10px; /* Compact spacing */
+  border-radius: 8px; /* Smooth edges */
+  white-space: nowrap; /* Prevents text from wrapping */
+  overflow: hidden; /* Hides overflow text */
+  text-overflow: ellipsis; /* Adds "..." if text is too long */
+  display: flex; /* Aligns icon and text inline */
+  align-items: center; /* Centers vertically */
+  gap: 8px; /* Space between icon and text */
+}
+
+/* Fix for the plus icon to stay visible */
+.nav-item .bi {
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Add padding to prevent shifting */
+.nav-item.claims-menu {
+  width: 100%; /* Ensure the other menus stay the same size */
+}
+
+.claims-submenu {
+  padding-left: 10px; /* Proper indentation of submenus */
+}
+/* Add padding to prevent shifting */
+.nav-item.enrollment-menu {
+  width: 100%; /* Ensure the other menus stay the same size */
+}
+
+.enrollment-submenu {
+  padding-left: 20px; /* Proper indentation of submenus */
+}
+/* Add padding to prevent shifting */
+.nav-item.callcenter-menu {
+  width: 100%; /* Ensure the other menus stay the same size */
+}
+
+.callcenter-submenu {
+  padding-left: 20px; /* Proper indentation of submenus */
+}
+/* Ensure the dropdown icon stays in place */
+.nav-link i.bi {
+  margin-left: 8px; /* Space between text and icon */
+}
+.nav-item .claims-menu .bi {
+  margin-left: auto;
+}
+
+.small-menu:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+.breadcrumb-bar {
+  position: fixed;
+  top: 56px; /* Below the header */
+  left: 16.666%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.1); /* Light background */
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  color: black;
+  z-index: 1000;
+}
+
 
   

@@ -1,7 +1,10 @@
 <div class="container-fluid">
   <!-- Fixed Header -->
   <header class="navbar navbar-dark bg-dark px-3 fixed-top">
-    <a class="navbar-brand text-white" href="#">Health Insurance Portal</a>
+    <a class="navbar-brand text-white" href="#">Insitz+</a>
+    <button class="business-ops-btn" routerLink="/" routerLinkActive="active">
+      Business-Operations
+    </button>
     <div class="d-flex align-items-center">
       <div class="me-3 text-white text-end">
         <span class="fw-bold d-block">{{ username }}</span> <!-- Username on top -->
@@ -22,49 +25,118 @@
   
 
   <!-- Main Layout with Sidebar and Content -->
-  <div class="row" style="margin-top: 56px;">
+<div class="row" style="margin-top: 56px;">
     <!-- Sidebar Navigation -->
 <nav class="col-md-3 col-lg-2 d-md-block bg-dark sidebar position-fixed">
   <div class="position-sticky">
     <!-- Daily Operations Button (Fixed at Top) -->
-    <button class="daily-operations-btn" (click)="toggleMenu()">
+    <button class="daily-operations-btn" routerLink="/businessOperation/dailyOperation" routerLinkActive="active">
       Daily Operations
     </button>
 
-    <!-- Sidebar Menu (Initially Hidden) -->
-    <ul class="nav flex-column mt-3" [ngClass]="{ 'd-none': !menuVisible }">
-      <li class="nav-item">
-        <a routerLink="/" class="nav-link text-white">
-          <i class="bi bi-house-door"></i> Home
-        </a>
-      </li>
-      <li *ngIf="role === 'admin' || role === 'agent'" class="nav-item">
-        <a routerLink="/mfe-policy/policy" class="nav-link text-white">
-          <i class="bi bi-file-text"></i> Policies
-        </a>
-      </li>
-      <li *ngIf="role === 'admin' || role === 'user'" class="nav-item">
-        <a routerLink="/mfe-claims/claims" class="nav-link text-white">
-          <i class="bi bi-clipboard"></i> Claims
-        </a>
-      </li>
-      <li *ngIf="role === 'admin' || role === 'support'" class="nav-item">
-        <a routerLink="/mfe-callcenter/callcenter" class="nav-link text-white">
-          <i class="bi bi-headset"></i> Call Center
-        </a>
-      </li>
+  <!-- Sidebar Menu (Initially Hidden) -->
+  <ul class="nav flex-column mt-3">
+      <!-- Claims Parent Menu -->
+  <li class="nav-item claims-menu" *ngIf="canAccessClaims()">
+    <a class="nav-link text-white d-flex justify-content-between align-items-center"
+       (click)="toggleClaimsMenu()">
+      <span>
+        <i class="bi bi-folder"></i> Claims
+      </span>
+      <i class="bi" [ngClass]="{'bi-plus': !isClaimsOpen, 'bi-dash': isClaimsOpen}"></i>
+    </a>
+  </li>
+  <!-- Claims Submenu -->
+  <ul *ngIf="isClaimsOpen" class="nav flex-column claims-submenu">
+    <li class="nav-item">
+      <a routerLink="/businessOperation/claims/productionReport" class="nav-link text-white small-menu">
+        Production Report
+      </a>
+    </li>
+    <li class="nav-item">
+      <a routerLink="/businessOperation/claims/pendingClaimsNew" class="nav-link text-white small-menu">
+        Pending Claims-New
+      </a>
+    </li>
+    <li class="nav-item">
+      <a routerLink="/businessOperation/claims/pendingclaimsAdjusted" class="nav-link text-white small-menu">
+        Pending Claims-Adjusted
+      </a>
+    </li>
+    <li class="nav-item">
+      <a routerLink="/businessOperation/claims/finalizedClaims" class="nav-link text-white small-menu">
+         Finalized Claims
+      </a>
+    </li>
+  </ul>
+
+     <!-- Enrollment Parent Menu -->
+<li class="nav-item enrollment-menu" *ngIf="canAccessEnrollment()">
+  <a class="nav-link text-white d-flex justify-content-between align-items-center"
+     (click)="toggleEnrollmentMenu()">
+    <span>
+      <i class="bi bi-people"></i> Enrollment
+    </span>
+    <i class="bi" [ngClass]="{'bi-plus': !isEnrollmentOpen, 'bi-dash': isEnrollmentOpen}"></i>
+  </a>
+</li>
+
+<!-- Enrollment Submenu (Smaller) -->
+<ul *ngIf="isEnrollmentOpen" class="nav flex-column enrollment-submenu">
+  <li class="nav-item">
+    <a routerLink="/businessOperation/enrollment/enrollmentAging" class="nav-link text-white small-menu">
+      Enrollment Aging
+    </a>
+  </li>
+  <li class="nav-item">
+    <a routerLink="/businessOperation/enrollment/idCardAging" class="nav-link text-white small-menu">
+      ID Card Aging
+    </a>
+  </li>
+  <li class="nav-item">
+    <a routerLink="/businessOperation/enrollment/idCardStatus" class="nav-link text-white small-menu">
+      ID Card Status
+    </a>
+  </li>
+  <li class="nav-item">
+    <a routerLink="/businessOperation/enrollment/tatEnrollments" class="nav-link text-white small-menu">
+       TAT-Enrollements
+    </a>
+  </li>
+</ul>
+
+      <!-- Call-center -->
+        <li *ngIf="canAccessCallCenter()" class="nav-item callcenter-menu">
+          <a class="nav-link text-white d-flex justify-content-between align-items-center"
+             (click)="toggleCallCenterMenu()">
+            <span>
+              <i class="bi bi-folder"></i> Call Center
+            </span>
+            <i class="bi" [ngClass]="{'bi-plus': !isCallCenterOpen, 'bi-dash': isCallCenterOpen}"></i>
+          </a>
+        </li>
+        <!-- Callcenter Submenu -->
+        <ul *ngIf="isCallCenterOpen" class="nav flex-column callcenter-submenu">
+          <li class="nav-item">
+            <a routerLink="/businessOperation/callCenter/overallSLA" class="nav-link text-white small-menu">
+             Overall SLA
+            </a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="/businessOperation/callCenter/teamDetails" class="nav-link text-white small-menu">
+            Team Details
+            </a>
+          </li>
+        </ul>
     </ul>
   </div>
 </nav>
 
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="margin-left: 16.666%; padding-top: 70px; position: relative;">
-      <!-- Business-Ops Button (Fixed in Viewport) -->
-      <button class="business-ops-btn" routerLink="/">
-        Business-ops
-      </button>
-    
-      <h1>Welcome to Health Insurance Portal</h1>
+      <div class="breadcrumb-bar">
+        {{ currentUrl }}
+      </div>
       <router-outlet></router-outlet>
     </main>
     

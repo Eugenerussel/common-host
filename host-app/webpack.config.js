@@ -5,7 +5,7 @@ module.exports = withModuleFederationPlugin({
   name: 'host-app',
 
   remotes: {
-    dashboard: 'dashboard@http://localhost:4201/remoteEntry.js',  // Remote MFE URL
+    dailyOperation: 'dailyOperation@http://localhost:4201/remoteEntry.js',  // Remote MFE URL
   },
 
   shared: {
