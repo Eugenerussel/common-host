@@ -1,69 +1,102 @@
 <div class="container-fluid">
-  <!-- Fixed Header -->
-  <header class="navbar navbar-dark bg-dark px-3 fixed-top">
-    <a class="navbar-brand text-white" href="#">Insitz+</a>
+  <header class="navbar header px-3 fixed-top">
     <button class="business-ops-btn" routerLink="/" routerLinkActive="active">
       Business-Operations
     </button>
-    <div class="d-flex align-items-center">
-      <div class="me-3 text-white text-end">
-        <span class="fw-bold d-block">{{ username }}</span> <!-- Username on top -->
-        <small class="text-secondary d-block">{{ role }}</small> <!-- Role underneath -->
-      </div>
-      <div class="dropdown">
-        <button class="btn btn-dark dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="bi bi-person-circle"></i>
+    
+    <!-- Right Side: Username, Role, and Profile Dropdown -->
+    <div class="d-flex align-items-center ms-auto">
+      <!-- Profile Dropdown (First) -->
+      <div class="profile-dropdown position-relative me-3">
+        <button class="btn profile-circle" (click)="toggleDropdown()">
+          <span class="profile-initials">{{ getInitials(username) }}</span>
         </button>
-        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-          <li>
-            <a class="dropdown-item" href="#" (click)="logout()">Logout</a>
-          </li>
-        </ul>
+        <div class="dropdown-menu dropdown-menu-end" [ngClass]="{'show': isDropdownOpen}">
+          <a class="dropdown-item" href="#" (click)="logout()">Logout</a>
+        </div>
+      </div>
+    
+      <!-- Username and Role (Next) -->
+      <div class="user-info text-end">
+        <span class="fw-bold d-block">{{ username }}</span>
+        <small class="text-secondary d-block">{{ role }}</small>
       </div>
     </div>
+    
+    
   </header>
+  
+  
+  
   
 
   <!-- Main Layout with Sidebar and Content -->
-<div class="row" style="margin-top: 56px;">
+<div class="row" style="margin-top: 56px;"> 
     <!-- Sidebar Navigation -->
-<nav class="col-md-3 col-lg-2 d-md-block bg-dark sidebar position-fixed">
+<nav class="col-md-3 col-lg-2 d-md-block  sidebar position-fixed">
   <div class="position-sticky">
+    <div class="sidebar-logo text-center pt-2 pb-2">
+      <img src="/assets/insitz-logo.png" alt="Company Logo" class="sidebar-img">
+    </div>
+    <!-- Search Bar -->
+    <div class="search-container">
+      <input
+        type="text"
+        class="form-control sidebar-search"
+        [(ngModel)]="searchQuery"
+        (input)="filterMenu()"
+        placeholder="🔍 Search..."
+      />
+    
+    <!-- Search Results Dropdown -->
+    <div class="search-results shadow-sm" *ngIf="filteredItems.length > 0">
+      <ul class="list-group">
+        <li class="list-group-item d-flex align-items-center" *ngFor="let item of filteredItems">
+          <!-- <i class="{{ item.icon }} text-primary me-2"></i> -->
+          <a [routerLink]="item.link" (click)="clearSearch()" class="search-item">
+            {{ item.label }}
+          </a>
+        </li>
+      </ul>
+    </div>
+    </div>
+
     <!-- Daily Operations Button (Fixed at Top) -->
-    <button class="daily-operations-btn" routerLink="/businessOperation/dailyOperation" routerLinkActive="active">
+    <button class="daily-operations-btn" routerLink="/businessOperation/dailyOperation/dashboard" routerLinkActive="active">
       Daily Operations
     </button>
 
-  <!-- Sidebar Menu (Initially Hidden) -->
+
   <ul class="nav flex-column mt-3">
       <!-- Claims Parent Menu -->
   <li class="nav-item claims-menu" *ngIf="canAccessClaims()">
     <a class="nav-link text-white d-flex justify-content-between align-items-center"
-       (click)="toggleClaimsMenu()">
+       (click)="toggleMenu('claims')"
+       [routerLinkActive]="['active-link']">
       <span>
         <i class="bi bi-folder"></i> Claims
       </span>
-      <i class="bi" [ngClass]="{'bi-plus': !isClaimsOpen, 'bi-dash': isClaimsOpen}"></i>
+      <i class="bi"  [ngClass]="{'bi-plus': activeMenu !== 'claims', 'bi-dash': activeMenu === 'claims'}"></i>
     </a>
   </li>
   <!-- Claims Submenu -->
-  <ul *ngIf="isClaimsOpen" class="nav flex-column claims-submenu">
-    <li class="nav-item">
+  <ul  *ngIf="activeMenu === 'claims'"  class="nav flex-column claims-submenu">
+    <li class="nav-item" routerLinkActive="active-submenu">
       <a routerLink="/businessOperation/claims/productionReport" class="nav-link text-white small-menu">
         Production Report
       </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item" routerLinkActive="active-submenu">
       <a routerLink="/businessOperation/claims/pendingClaimsNew" class="nav-link text-white small-menu">
         Pending Claims-New
       </a>
     </li>
-    <li class="nav-item">
-      <a routerLink="/businessOperation/claims/pendingclaimsAdjusted" class="nav-link text-white small-menu">
+    <li class="nav-item" routerLinkActive="active-submenu">
+      <a routerLink="/businessOperation/claims/pendingClaimsAdjusted" class="nav-link text-white small-menu">
         Pending Claims-Adjusted
       </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item" routerLinkActive="active-submenu">
       <a routerLink="/businessOperation/claims/finalizedClaims" class="nav-link text-white small-menu">
          Finalized Claims
       </a>
@@ -73,32 +106,33 @@
      <!-- Enrollment Parent Menu -->
 <li class="nav-item enrollment-menu" *ngIf="canAccessEnrollment()">
   <a class="nav-link text-white d-flex justify-content-between align-items-center"
-     (click)="toggleEnrollmentMenu()">
+     (click)="toggleMenu('enrollment')"
+     [routerLinkActive]="['active-link']">
     <span>
       <i class="bi bi-people"></i> Enrollment
     </span>
-    <i class="bi" [ngClass]="{'bi-plus': !isEnrollmentOpen, 'bi-dash': isEnrollmentOpen}"></i>
+    <i class="bi"  [ngClass]="{'bi-plus': activeMenu !== 'enrollment', 'bi-dash': activeMenu === 'enrollment'}"></i>
   </a>
 </li>
 
 <!-- Enrollment Submenu (Smaller) -->
-<ul *ngIf="isEnrollmentOpen" class="nav flex-column enrollment-submenu">
-  <li class="nav-item">
+<ul  *ngIf="activeMenu === 'enrollment'"  class="nav flex-column enrollment-submenu">
+  <li class="nav-item" routerLinkActive="active-submenu">
     <a routerLink="/businessOperation/enrollment/enrollmentAging" class="nav-link text-white small-menu">
       Enrollment Aging
     </a>
   </li>
-  <li class="nav-item">
+  <li class="nav-item"routerLinkActive="active-submenu">
     <a routerLink="/businessOperation/enrollment/idCardAging" class="nav-link text-white small-menu">
       ID Card Aging
     </a>
   </li>
-  <li class="nav-item">
+  <li class="nav-item"routerLinkActive="active-submenu">
     <a routerLink="/businessOperation/enrollment/idCardStatus" class="nav-link text-white small-menu">
       ID Card Status
     </a>
   </li>
-  <li class="nav-item">
+  <li class="nav-item"routerLinkActive="active-submenu">
     <a routerLink="/businessOperation/enrollment/tatEnrollments" class="nav-link text-white small-menu">
        TAT-Enrollements
     </a>
@@ -108,21 +142,22 @@
       <!-- Call-center -->
         <li *ngIf="canAccessCallCenter()" class="nav-item callcenter-menu">
           <a class="nav-link text-white d-flex justify-content-between align-items-center"
-             (click)="toggleCallCenterMenu()">
+             (click)="toggleMenu('callCenter')"
+             [routerLinkActive]="['active-link']">
             <span>
               <i class="bi bi-folder"></i> Call Center
             </span>
-            <i class="bi" [ngClass]="{'bi-plus': !isCallCenterOpen, 'bi-dash': isCallCenterOpen}"></i>
+            <i class="bi"  [ngClass]="{'bi-plus': activeMenu !== 'callCenter', 'bi-dash': activeMenu === 'callCenter'}"></i>
           </a>
         </li>
         <!-- Callcenter Submenu -->
-        <ul *ngIf="isCallCenterOpen" class="nav flex-column callcenter-submenu">
-          <li class="nav-item">
+        <ul *ngIf="activeMenu === 'callCenter'"  class="nav flex-column callcenter-submenu">
+          <li class="nav-item"routerLinkActive="active-submenu">
             <a routerLink="/businessOperation/callCenter/overallSLA" class="nav-link text-white small-menu">
              Overall SLA
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item"routerLinkActive="active-submenu">
             <a routerLink="/businessOperation/callCenter/teamDetails" class="nav-link text-white small-menu">
             Team Details
             </a>

@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterModule, RouterOutlet } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { log } from 'node:console';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,CommonModule,RouterModule],
+  imports: [RouterOutlet,CommonModule,RouterModule,FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -13,10 +14,11 @@ export class AppComponent implements OnInit {
   title = 'host-app';
   role:string='';
   username:string='';
-  isClaimsOpen = false;
-  isEnrollmentOpen = false;
-  isCallCenterOpen = false;
+  activeMenu: string | null = null;
   currentUrl: string = '';
+  isDropdownOpen: boolean = false; 
+  searchQuery: string = '';
+  filteredItems: any[] = [];
   allowedClaimsRoles: string[] = ['Insitz Plus Admin', 'Customer Leadership', 'BPaaS Leadership', 'BPaaS Manager', 'BPaas Leads', 'BPaas Claims Analyst']; 
   allowedEnrollmentRoles: string[] = ['Insitz Plus Admin', 'Customer Leadership', 'BPaaS Leadership', 'BPaaS Manager', 'BPaas Leads', 'BPaas Enrollment Analyst']; 
   allowedCallCenterRoles: string[] = ['Insitz Plus Admin', 'Customer Leadership', 'BPaaS Leadership', 'BPaaS Manager']; 
@@ -42,6 +44,20 @@ export class AppComponent implements OnInit {
       }
     });
   }
+  getInitials(name: string): string {
+    const names = name.split(' ');
+    const initials = names.map(name => name.charAt(0).toUpperCase()).join('');
+    return initials;
+  }
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+  @HostListener('document:click', ['$event'])
+  closeDropdown(event: Event) {
+    if (!(event.target as HTMLElement).closest('.profile-dropdown')) {
+      this.isDropdownOpen = false;
+    }
+  }
   
   logout() {
     localStorage.clear();
@@ -49,14 +65,12 @@ export class AppComponent implements OnInit {
   }
   
 
-  toggleClaimsMenu() {
-    this.isClaimsOpen = !this.isClaimsOpen;
-  }
-  toggleEnrollmentMenu(){
-    this.isEnrollmentOpen = !this.isEnrollmentOpen;
-  }
-  toggleCallCenterMenu(){
-    this.isCallCenterOpen = !this.isCallCenterOpen;
+  toggleMenu(menuName: string) {
+    if (this.activeMenu === menuName) {
+      this.activeMenu = null; // Close if the same menu is clicked again
+    } else {
+      this.activeMenu = menuName; // Open the clicked menu and close others
+    }
   }
   canAccessClaims(): boolean {
     return this.allowedClaimsRoles.includes(this.role.trim()); // Trim to remove spaces
@@ -67,5 +81,63 @@ export class AppComponent implements OnInit {
   canAccessCallCenter(): boolean {
     return this.allowedCallCenterRoles.includes(this.role.trim()); // Trim to remove spaces
   }
- 
+
+  menuItems = [
+    {
+      name: 'claims',
+      label: 'Claims', 
+      submenus: [
+        { label: 'Production Report', link: '/businessOperation/claims/productionReport'},
+        { label: 'Pending Claims-New', link: '/businessOperation/claims/pendingClaimsNew'},
+        { label: 'Pending Claims-Adjusted', link: '/businessOperation/claims/pendingClaimsAdjusted'},
+        { label: 'Finalized Claims', link: '/businessOperation/claims/finalizedClaims'}
+      ]
+    },
+    {
+      name: 'enrollment',
+      label: 'Enrollment',
+      submenus: [
+        { label: 'Enrollment Aging', link: '/businessOperation/enrollment/enrollmentAging'},
+        { label: 'ID Card Aging', link: '/businessOperation/enrollment/idCardAging'},
+        { label: 'ID Card Status', link: '/businessOperation/enrollment/idCardStatus'},
+        { label: 'TAT-Enrollments', link: '/businessOperation/enrollment/tatEnrollments'}
+      ]
+    },
+    {
+      name: 'callCenter',
+      label: 'Call Center',
+      submenus: [
+        { label: 'Overall SLA', link: '/businessOperation/callCenter/overallSLA'},
+        { label: 'Team Details', link: '../teamDetails'}
+      ]
+    }
+  ];
+
+  filterMenu() {
+    if (!this.searchQuery.trim()) {
+      this.filteredItems = [];
+      return;
+    }
+  
+    this.filteredItems = [];
+  
+    this.menuItems.forEach(menu => {
+      // Check if parent menu matches search
+      if (menu.label.toLowerCase().includes(this.searchQuery.toLowerCase())) {
+        this.filteredItems.push({ label: menu.label, link: '' });
+      }
+  
+      // Check if any submenu matches search
+      menu.submenus.forEach(sub => {
+        if (sub.label.toLowerCase().includes(this.searchQuery.toLowerCase())) {
+          this.filteredItems.push({ label: sub.label, link: sub.link });
+        }
+      });
+    });
+  }
+  
+  clearSearch() {
+    this.searchQuery = '';
+    this.filteredItems = [];
+  }
 }
