@@ -22,6 +22,14 @@ export class ViewPortComponent {
   allowedEnrollmentRoles: string[] = ['Insitz Plus Admin', 'Customer Leadership', 'BPaaS Leadership', 'BPaaS Manager', 'BPaas Leads', 'BPaas Enrollment Analyst']; 
   allowedCallCenterRoles: string[] = ['Insitz Plus Admin', 'Customer Leadership', 'BPaaS Leadership', 'BPaaS Manager']; 
   constructor(private router: Router) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        const url = event.urlAfterRedirects || event.url; // Handle redirected URLs
+        const match = url.match(/\/businessOperation.*/); // Match everything from 'businessOperation' onward
+    
+        this.currentUrl = match ? match[0] : url; // Set extracted path or fallback to full URL
+      }
+    });
   }
   ngOnInit() {
     if (!localStorage.getItem('role')) {
@@ -34,14 +42,7 @@ export class ViewPortComponent {
     this.username = localStorage.getItem('username') || '';
     console.log('Role: ', this.role);
     console.log('Username: ', this.username);
-    
-    this.currentUrl = this.router.url; // Set initial URL
-
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.currentUrl = event.url; // Update on route change
-      }
-    });
+       
   }
   getInitials(name: string): string {
     const names = name.split(' ');

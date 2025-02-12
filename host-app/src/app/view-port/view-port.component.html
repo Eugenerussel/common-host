@@ -62,7 +62,7 @@
       </div>
   
       <!-- Daily Operations Button (Fixed at Top) -->
-      <button class="daily-operations-btn" routerLink="/businessOperation/dailyOperation/dashboard" routerLinkActive="active">
+      <button class="daily-operations-btn" routerLink="businessOperation/dailyOperation/dashboard" routerLinkActive="active">
         Daily Operations
       </button>
   
@@ -82,22 +82,22 @@
     <!-- Claims Submenu -->
     <ul  *ngIf="activeMenu === 'claims'"  class="nav flex-column claims-submenu">
       <li class="nav-item" routerLinkActive="active-submenu">
-        <a routerLink="/businessOperation/claims/productionReport" class="nav-link text-white small-menu">
+        <a routerLink="businessOperation/claims/productionReport" class="nav-link text-white small-menu">
           Production Report
         </a>
       </li>
       <li class="nav-item" routerLinkActive="active-submenu">
-        <a routerLink="/businessOperation/claims/pendingClaimsNew" class="nav-link text-white small-menu">
+        <a routerLink="businessOperation/claims/pendingClaimsNew" class="nav-link text-white small-menu">
           Pending Claims-New
         </a>
       </li>
       <li class="nav-item" routerLinkActive="active-submenu">
-        <a routerLink="/businessOperation/claims/pendingClaimsAdjusted" class="nav-link text-white small-menu">
+        <a routerLink="businessOperation/claims/pendingClaimsAdjusted" class="nav-link text-white small-menu">
           Pending Claims-Adjusted
         </a>
       </li>
       <li class="nav-item" routerLinkActive="active-submenu">
-        <a routerLink="/businessOperation/claims/finalizedClaims" class="nav-link text-white small-menu">
+        <a routerLink="businessOperation/claims/finalizedClaims" class="nav-link text-white small-menu">
            Finalized Claims
         </a>
       </li>
@@ -118,22 +118,22 @@
   <!-- Enrollment Submenu (Smaller) -->
   <ul  *ngIf="activeMenu === 'enrollment'"  class="nav flex-column enrollment-submenu">
     <li class="nav-item" routerLinkActive="active-submenu">
-      <a routerLink="/businessOperation/enrollment/enrollmentAging" class="nav-link text-white small-menu">
+      <a routerLink="businessOperation/enrollment/enrollmentAging" class="nav-link text-white small-menu">
         Enrollment Aging
       </a>
     </li>
     <li class="nav-item"routerLinkActive="active-submenu">
-      <a routerLink="/businessOperation/enrollment/idCardAging" class="nav-link text-white small-menu">
+      <a routerLink="businessOperation/enrollment/idCardAging" class="nav-link text-white small-menu">
         ID Card Aging
       </a>
     </li>
     <li class="nav-item"routerLinkActive="active-submenu">
-      <a routerLink="/businessOperation/enrollment/idCardStatus" class="nav-link text-white small-menu">
+      <a routerLink="businessOperation/enrollment/idCardStatus" class="nav-link text-white small-menu">
         ID Card Status
       </a>
     </li>
     <li class="nav-item"routerLinkActive="active-submenu">
-      <a routerLink="/businessOperation/enrollment/tatEnrollments" class="nav-link text-white small-menu">
+      <a routerLink="businessOperation/enrollment/tatEnrollments" class="nav-link text-white small-menu">
          TAT-Enrollements
       </a>
     </li>
@@ -153,12 +153,12 @@
           <!-- Callcenter Submenu -->
           <ul *ngIf="activeMenu === 'callCenter'"  class="nav flex-column callcenter-submenu">
             <li class="nav-item"routerLinkActive="active-submenu">
-              <a routerLink="/businessOperation/callCenter/overallSLA" class="nav-link text-white small-menu">
+              <a routerLink="businessOperation/callCenter/overallSLA" class="nav-link text-white small-menu">
                Overall SLA
               </a>
             </li>
             <li class="nav-item"routerLinkActive="active-submenu">
-              <a routerLink="/businessOperation/callCenter/teamDetails" class="nav-link text-white small-menu">
+              <a routerLink="businessOperation/callCenter/teamDetails" class="nav-link text-white small-menu">
               Team Details
               </a>
             </li>

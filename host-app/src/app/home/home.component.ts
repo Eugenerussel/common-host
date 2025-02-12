@@ -15,7 +15,7 @@ export class HomeComponent {
 
   lambdaLogin() {
     this.authService.login();
-    this.router.navigate(['/businessOperation']);
+    this.router.navigate(['/insitz']);
   }
 
 }
