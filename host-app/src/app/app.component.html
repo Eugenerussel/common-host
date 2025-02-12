@@ -38,29 +38,6 @@
     <div class="sidebar-logo text-center pt-2 pb-2">
       <img src="/assets/insitz-logo.png" alt="Company Logo" class="sidebar-img">
     </div>
-    <!-- Search Bar -->
-    <div class="search-container">
-      <input
-        type="text"
-        class="form-control sidebar-search"
-        [(ngModel)]="searchQuery"
-        (input)="filterMenu()"
-        placeholder="🔍 Search..."
-      />
-    
-    <!-- Search Results Dropdown -->
-    <div class="search-results shadow-sm" *ngIf="filteredItems.length > 0">
-      <ul class="list-group">
-        <li class="list-group-item d-flex align-items-center" *ngFor="let item of filteredItems">
-          <!-- <i class="{{ item.icon }} text-primary me-2"></i> -->
-          <a [routerLink]="item.link" (click)="clearSearch()" class="search-item">
-            {{ item.label }}
-          </a>
-        </li>
-      </ul>
-    </div>
-    </div>
-
     <!-- Daily Operations Button (Fixed at Top) -->
     <button class="daily-operations-btn" routerLink="/businessOperation/dailyOperation/dashboard" routerLinkActive="active">
       Daily Operations

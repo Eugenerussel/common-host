@@ -1,0 +1,189 @@
+/*--------------------------------------------------------------
+# General
+--------------------------------------------------------------*/
+:root {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    font-family: "poppins", sans-serif;
+  }
+  
+  a {
+    color: #4154f1;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    color: #717ff5;
+    text-decoration: none;
+  }
+  
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /*--------------------------------------------------------------
+  # Main
+  --------------------------------------------------------------*/
+  .login-bg {
+    padding: 50px 70px;
+    transition: all 0.3s;
+    position: relative;
+    height: 100vh !important;
+    background: radial-gradient(
+      circle,
+      rgba(0, 151, 172, 0) 0%,
+      rgba(0, 151, 172, 1) 100%
+    );
+    overflow: hidden;
+    font-family: poppins, sans-serif !important;
+  }
+  
+  @media (max-width: 1199px) {
+    #main {
+      padding: 20px;
+    }
+  }
+  
+  .wrap-login-form-content {
+    background-image: url(/assets/images/Fabric.png);
+    display: flex;
+    border-radius: 20px;
+    height: -webkit-fill-available;
+    overflow: hidden;
+  }
+  /* ---------Login content Start----------*/
+  .wrap-login-content {
+    display: flex;
+    background-image: url(/assets/images/login-content-bg.png);
+    width: -webkit-fill-available;
+    padding: 30px 50px;
+    flex-flow: column;
+    gap: 20px;
+    overflow: auto;
+  }
+  .wrap-login-content .logo {
+    background-image: url(/assets/images/insitz-logo-home.svg);
+    height: 50px;
+    width: -webkit-fill-available;
+    background-repeat: no-repeat;
+    margin: 0 auto;
+    background-position: center;
+    background-size: contain;
+  }
+  .wrap-login-content h3 {
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+  }
+  .wrap-login-content p {
+    color: white;
+    font-size: 14px;
+    text-align: justify;
+    margin: 0;
+    padding: 0;
+    opacity: 0.75;
+  }
+  .wrap-login-content h5 {
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+  }
+  .wrap-highlights {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+  }
+  .highlights {
+    display: flex;
+    align-items: center;
+    flex-flow: column;
+    gap: 5px;
+  }
+  .highlight-1 {
+    background-image: url(/assets/images/highlight-1.png);
+    width: 50px;
+    height: 50px;
+    background-size: cover;
+  }
+  .highlight-2 {
+    background-image: url(/assets/images/highlight-2.png);
+    width: 50px;
+    height: 50px;
+    background-size: cover;
+  }
+  .highlight-3 {
+    background-image: url(/assets/images/highlight-3.png);
+    width: 50px;
+    height: 50px;
+    background-size: cover;
+  }
+  .highlight-4 {
+    background-image: url(/assets/images/highlight-4.png);
+    width: 50px;
+    height: 50px;
+    background-size: cover;
+  }
+  .highlights p {
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+    font-weight: bold;
+    opacity: 1;
+  }
+  
+  /* ---------Login content ends----------*/
+  /* ---------Login form Start----------*/
+  .wrap-login-form {
+    display: flex;
+    width: 50%;
+    padding: 50px;
+    align-items: center;
+  }
+  .login-form {
+    background: white;
+    border-radius: 20px;
+    padding: 30px 15px;
+    height: fit-content;
+    display: flex;
+    flex-flow: column;
+    gap: 20px;
+  }
+  .login-form p {
+    text-align: center;
+    color: #0097ac;
+    font-size: 18px;
+    margin: 0;
+    padding: 0;
+  }
+  .login-form button {
+    color: #fff;
+    font-size: 14px;
+    background-color: #0097ac;
+    border-radius: 50px;
+    border: none;
+    padding: 5px 25px;
+    margin: 0 auto;
+  }
+  .login-form button:hover {
+    background-color: #0097acdb;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+  }
+  /* ---------Login form Start----------*/
+  
+  .bpo-heading {
+    padding-bottom: 10px !important;
+  }
+  
