@@ -1,7 +1,9 @@
+import { environment } from "./src/app/environment/environment";
+
 export const oktaConfig = {
-    issuer: process.env["ISSUER_URI"] as string, 
-    clientId: process.env["CLIENT_ID"],
-    redirectUri: process.env["REDIRECT_URI"],
+    issuer: environment.ISSUER_URI,
+    clientId: environment.CLIENT_ID,
+    redirectUri: environment.REDIRECT_URI,
     scopes: ['openid', 'profile', 'email'],
     pkce: true
   };

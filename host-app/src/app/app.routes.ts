@@ -1,8 +1,8 @@
 import { loadRemoteModule } from '@angular-architects/module-federation';
 import { Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { ViewPortComponent } from './view-port/view-port.component';
-import { CallbackComponent } from './callback/callback.component';
+import { HomeComponent } from './component/home/home.component';
+import { ViewPortComponent } from './component/view-port/view-port.component';
+import { CallbackComponent } from './component/callback/callback.component';
 
 export const routes: Routes = [
     {path:'',redirectTo:'/login',pathMatch:'full'},

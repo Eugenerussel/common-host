@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterModule, RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { Menu } from '../model/menu';
+import { Menu } from '../../model/menu';
 
 @Component({
   selector: 'app-view-port',
