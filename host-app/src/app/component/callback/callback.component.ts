@@ -10,12 +10,14 @@ import { Router } from '@angular/router';
 })
 export class CallbackComponent {
   constructor(private authService: AuthService, private router: Router) {
-    this.handleCallback();
+  }
+  async ngOnInit() {
+    await this.handleCallback();
   }
 
   async handleCallback() {
     await this.authService.handleCallback();
-    this.router.navigate(['/insitz']); // Redirect to PoC landing page
+    //this.router.navigate(['/insitz']); // Redirect to PoC landing page
   }
 
 }

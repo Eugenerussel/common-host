@@ -3,16 +3,17 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './component/home/home.component';
 import { ViewPortComponent } from './component/view-port/view-port.component';
 import { CallbackComponent } from './component/callback/callback.component';
+import { AuthGuard } from './service/auth.guard';
 
 export const routes: Routes = [
     {path:'',redirectTo:'/login',pathMatch:'full'},
     {path:'login',component:HomeComponent},
-    {path:'callback',component:CallbackComponent},
-    {path:'insitz',component:ViewPortComponent,
+    {path:'insitz',component:ViewPortComponent, canActivate: [AuthGuard],
      children:[
         { 
             path: '', redirectTo: 'businessOperation', pathMatch: 'full'
         },
+        {path:'login/callback',component:CallbackComponent},
         {
             path:'businessOperation',
             loadChildren: () => loadRemoteModule({
