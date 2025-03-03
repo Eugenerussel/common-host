@@ -13,7 +13,7 @@ export class AuthService {
 
   async login() {
     console.log("Logging in...");
-    const isAuthenticated = await this.isAuthenticated();
+    const isAuthenticated = await this.oktaAuth.isAuthenticated();
     if (!isAuthenticated) {
       console.log("User is not authenticated, redirecting to Okta login...");
       await this.oktaAuth.signInWithRedirect();
@@ -47,24 +47,24 @@ export class AuthService {
   }
   
 
-  async handleCallback() {
-    try {
-      await this.oktaAuth.handleRedirect();
+  // async handleCallback() {
+  //   try {
+  //     await this.oktaAuth.handleRedirect();
       
-      const isAuthenticated = await this.isAuthenticated();
+  //     const isAuthenticated = await this.oktaAuth.isAuthenticated();
       
-      if (isAuthenticated){
-        console.log("Authentication successful! Redirecting to dashboard...");
-        this.router.navigate(['/insitz']);  // Change to your actual landing page
-      } else {
-        console.error("Authentication failed, redirecting to login.");
-        this.router.navigate(['/login']);
-      }
-    } catch (err) {
-      console.error("Error handling Okta redirect:", err);
-      this.router.navigate(['/login']);
-    }
-  }
+  //     if (isAuthenticated){
+  //       console.log("Authentication successful! Redirecting to dashboard...");
+  //       this.router.navigate(['/insitz']);  // Change to your actual landing page
+  //     } else {
+  //       console.error("Authentication failed, redirecting to login.");
+  //       this.router.navigate(['/login']);
+  //     }
+  //   } catch (err) {
+  //     console.error("Error handling Okta redirect:", err);
+  //     this.router.navigate(['/login']);
+  //   }
+  // }
   
   getAccessToken(): string | null {
     return localStorage.getItem('access_token');  // Retrieve token from storage

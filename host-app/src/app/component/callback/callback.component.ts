@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../service/auth.service';
 import { Router } from '@angular/router';
+import { OktaAuth } from '@okta/okta-auth-js';
 
 @Component({
   selector: 'app-callback',
@@ -9,15 +9,18 @@ import { Router } from '@angular/router';
   styleUrl: './callback.component.css'
 })
 export class CallbackComponent {
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private oktaAuth:OktaAuth, private router: Router) {
   }
   async ngOnInit() {
-    await this.handleCallback();
-  }
-
-  async handleCallback() {
-    await this.authService.handleCallback();
-    //this.router.navigate(['/insitz']); // Redirect to PoC landing page
-  }
-
+    console.log("Handling authentication callback...");
+    this.oktaAuth.handleLoginRedirect()
+  .then(() => {
+    console.log("Authentication successful! Redirecting...");
+    return this.router.navigate(['/insitz']); 
+  })
+  .catch((error) => {
+    console.error("Error during authentication callback:", error);
+    return this.router.navigate(['/login']); 
+  });
+}
 }
