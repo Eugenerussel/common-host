@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterModule, RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Menu } from '../../model/menu';
 
 @Component({
   selector: 'app-view-port',
@@ -18,6 +19,7 @@ export class ViewPortComponent {
   isDropdownOpen: boolean = false; 
   searchQuery: string = '';
   filteredItems: any[] = [];
+  //menuItems: Menu[] = [];
   allowedClaimsRoles: string[] = ['Insitz Plus Admin', 'Customer Leadership', 'BPaaS Leadership', 'BPaaS Manager', 'BPaas Leads', 'BPaas Claims Analyst']; 
   allowedEnrollmentRoles: string[] = ['Insitz Plus Admin', 'Customer Leadership', 'BPaaS Leadership', 'BPaaS Manager', 'BPaas Leads', 'BPaas Enrollment Analyst']; 
   allowedCallCenterRoles: string[] = ['Insitz Plus Admin', 'Customer Leadership', 'BPaaS Leadership', 'BPaaS Manager']; 

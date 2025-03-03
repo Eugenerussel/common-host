@@ -1,12 +1,15 @@
 import { loadRemoteModule } from '@angular-architects/module-federation';
 import { Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { ViewPortComponent } from './view-port/view-port.component';
+import { HomeComponent } from './component/home/home.component';
+import { ViewPortComponent } from './component/view-port/view-port.component';
+import { CallbackComponent } from './component/callback/callback.component';
+import { AuthGuard } from './service/auth.guard';
 
 export const routes: Routes = [
     {path:'',redirectTo:'/login',pathMatch:'full'},
     {path:'login',component:HomeComponent},
-    {path:'insitz',component:ViewPortComponent,
+    {path:'insitz/login/callback',component:CallbackComponent},
+    {path:'insitz',component:ViewPortComponent,canActivate:[AuthGuard],
      children:[
         { 
             path: '', redirectTo: 'businessOperation', pathMatch: 'full'
@@ -14,6 +17,7 @@ export const routes: Routes = [
         {
             path:'businessOperation',
             loadChildren: () => loadRemoteModule({
+                //remoteEntry: 'https://your-s3-bucket-name.s3.amazonaws.com/remoteEntry.js',
                 remoteEntry: 'http://localhost:4201/remoteEntry.js',
                 type: 'module',
                 exposedModule: './routes'
