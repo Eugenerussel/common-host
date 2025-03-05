@@ -4,12 +4,15 @@ import { HomeComponent } from './component/home/home.component';
 import { ViewPortComponent } from './component/view-port/view-port.component';
 import { CallbackComponent } from './component/callback/callback.component';
 import { AuthGuard } from './service/auth.guard';
+import { environment } from './environment/environment';
 
 export const routes: Routes = [
     {path:'',redirectTo:'/login',pathMatch:'full'},
+    {path:'home/login',component:HomeComponent},
     {path:'login',component:HomeComponent},
     {path:'insitz/login/callback',component:CallbackComponent},
-    {path:'insitz',component:ViewPortComponent,canActivate:[AuthGuard],
+    //{path:'insitz',component:ViewPortComponent,canActivate:[AuthGuard],
+    {path:'insitz',component:ViewPortComponent,
      children:[
         { 
             path: '', redirectTo: 'businessOperation', pathMatch: 'full'
@@ -18,7 +21,7 @@ export const routes: Routes = [
             path:'businessOperation',
             loadChildren: () => loadRemoteModule({
                 //remoteEntry: 'https://your-s3-bucket-name.s3.amazonaws.com/remoteEntry.js',
-                remoteEntry: 'http://localhost:4201/remoteEntry.js',
+                remoteEntry: environment.BOPS_REMOTE_ENTRY,
                 type: 'module',
                 exposedModule: './routes'
             }).then(m => m.routes)

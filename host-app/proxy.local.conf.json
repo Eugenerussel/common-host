@@ -1,0 +1,9 @@
+{
+    "/insitz/oauth2/web/token": {
+    "target": "https://dev.usthealthproofconnect.com/insitz/oauth2/web/token",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": { "^/insitz/oauth2/web/token": "" }
+  }
+}

@@ -2,27 +2,64 @@ import { Injectable } from '@angular/core';
 import { oktaConfig } from '../../../okta-config';
 import { OktaAuth } from '@okta/okta-auth-js';
 import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { jwtDecode} from 'jwt-decode';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private router: Router) {}
+  constructor(private router: Router,private http: HttpClient) {}
   private oktaAuth = new OktaAuth(oktaConfig);
 
+  // async login() {
+  //   console.log("Logging in...");
+  //   const isAuthenticated = await this.oktaAuth.isAuthenticated();
+  //   if (!isAuthenticated) {
+  //     console.log("User is not authenticated, redirecting to Okta login...");
+  //     await this.oktaAuth.signInWithRedirect();
+  //   } else {
+  //     console.log("User is already authenticated, redirecting to landing page...");
+  //     //this.router.navigate(['/insitz']);  // Redirect to landing page if already logged in
+  //   }
+  // }
   async login() {
     console.log("Logging in...");
+  
     const isAuthenticated = await this.oktaAuth.isAuthenticated();
+  
     if (!isAuthenticated) {
       console.log("User is not authenticated, redirecting to Okta login...");
-      await this.oktaAuth.signInWithRedirect();
+      await this.oktaAuth.signInWithRedirect({
+        scopes: ['openid', 'email', 'profile', 'roles', 'active_group', 'offline_access'],
+      });
     } else {
-      console.log("User is already authenticated, redirecting to landing page...");
-      //this.router.navigate(['/insitz']);  // Redirect to landing page if already logged in
+      console.log("User is already authenticated, retrieving tokens...");
+      
+      // Get tokens from Okta SDK
+      const tokenResponse:any = await this.oktaAuth.tokenManager.get('accessToken');
+  
+      if (tokenResponse) {
+        console.log("Tokens retrieved successfully.");
+  
+        localStorage.setItem('access_token', tokenResponse.accessToken);
+        localStorage.setItem('id_token', tokenResponse.idToken);
+  
+        console.log("Authentication successful! Redirecting...");
+        this.router.navigate(['/insitz']); // Redirect to landing page
+      } else {
+        console.log("No tokens found, redirecting to login...");
+        this.router.navigate(['/login']);
+      }
     }
   }
   
+  
+    public jwt_decode(token: string): any {
+    const decodedToken: any = jwtDecode(token);
+    return token || {};
+  }
 
   async logout() {
     try {
@@ -45,26 +82,6 @@ export class AuthService {
       console.error("Error during logout:", error);
     }
   }
-  
-
-  // async handleCallback() {
-  //   try {
-  //     await this.oktaAuth.handleRedirect();
-      
-  //     const isAuthenticated = await this.oktaAuth.isAuthenticated();
-      
-  //     if (isAuthenticated){
-  //       console.log("Authentication successful! Redirecting to dashboard...");
-  //       this.router.navigate(['/insitz']);  // Change to your actual landing page
-  //     } else {
-  //       console.error("Authentication failed, redirecting to login.");
-  //       this.router.navigate(['/login']);
-  //     }
-  //   } catch (err) {
-  //     console.error("Error handling Okta redirect:", err);
-  //     this.router.navigate(['/login']);
-  //   }
-  // }
   
   getAccessToken(): string | null {
     return localStorage.getItem('access_token');  // Retrieve token from storage
