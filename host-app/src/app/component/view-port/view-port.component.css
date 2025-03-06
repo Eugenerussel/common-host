@@ -232,9 +232,9 @@
   border-radius: 20px; 
 }
 
-.nav-item.claims-menu:hover,
+/* .nav-item.claims-menu:hover,
 .nav-item.enrollment-menu:hover,
-.nav-item.callcenter-menu:hover,
+.nav-item.callcenter-menu:hover, */
 .nav-item a.active-link,
 .nav-item a.active-submenu {
   background-color: #006f7a; /* Hover effect for the active items */
@@ -259,7 +259,7 @@
 
 /* Focus Effect */
 .sidebar-search:focus {
-  border-color: #007bff;
+  border-color: black;
   outline: none;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }

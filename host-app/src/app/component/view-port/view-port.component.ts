@@ -154,7 +154,7 @@ activeMenu: string | null = null;
 searchQuery: string = '';
 filteredItems: any[] = [];
 menuItems: any[] = [];
-allowedRoles: any = {};
+menus: any = {};
 
 constructor(private router: Router, private http: HttpClient, private httpService: HttpService) {
   this.router.events.subscribe(event => {
@@ -169,6 +169,7 @@ constructor(private router: Router, private http: HttpClient, private httpServic
 ngOnInit() {
   this.username = localStorage.getItem('username') || 'Steve';
   this.role = localStorage.getItem('role') || 'Insitz Plus Admin';
+ // this.role = localStorage.getItem('role') || 'BPaas Leads';
 
   this.fetchMenuData();
 }
@@ -176,12 +177,27 @@ ngOnInit() {
 async fetchMenuData() {
   try {
     const response: any = await this.httpService.getMenuData().toPromise();
-    this.menuItems = response.menus || [];
-    this.allowedRoles = response.roles || {};
+    this.menus = response.menus || [];
+    this.menuItems = []; // Reset menuItems
+
+    this.menus.forEach((menuItem: any) => {
+      if (this.canAccess(menuItem)) {
+        this.menuItems.push(menuItem);
+      }
+    });
   } catch (error) {
-    console.error("Error fetching menu data", error);
+    console.error("Error fetching menu data:", error);
   }
 }
+
+canAccess(menuItem: any): boolean {
+  return (
+    menuItem.roles?.claims?.includes(this.role.trim()) ||
+    menuItem.roles?.enrollment?.includes(this.role.trim()) ||
+    menuItem.roles?.callCenter?.includes(this.role.trim())
+  );
+}
+
 
 getInitials(name: string): string {
   return name.split(' ').map(n => n.charAt(0).toUpperCase()).join('');
@@ -205,10 +221,6 @@ logout() {
 
 toggleMenu(menuName: string) {
   this.activeMenu = this.activeMenu === menuName ? null : menuName;
-}
-
-canAccess(menu: any): boolean {
-  return this.allowedRoles[menu.name]?.includes(this.role.trim());
 }
 
 filterMenu() {
