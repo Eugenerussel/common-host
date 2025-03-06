@@ -6,8 +6,6 @@ export const environment = {
     CLIENT_ID: "0oabyeuc6i259oC4s1d7",
    // REDIRECT_URI: "https://dev.usthealthproofconnect.com/insitz/login/callback",
    REDIRECT_URI: "http://localhost:8080/insitz/login/callback",
-
-   DASHBOARD_URI: "'dailyOpera@http://localhost:4201/remoteEntry.js'",
    BOPS_REMOTE_ENTRY: "http://localhost:4201/remoteEntry.js",
    backendBaseURL: "http://localhost:3000",
   };
