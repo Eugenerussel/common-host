@@ -1,4 +1,4 @@
-import { environment } from "./src/app/environment/environment";
+import { environment } from "./src/environments/environment";
 
 export const oktaConfig = {
     issuer: environment.ISSUER_URI,

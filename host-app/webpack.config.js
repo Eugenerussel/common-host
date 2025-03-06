@@ -1,13 +1,12 @@
-//import { environment } from "./src/app/environment/environment";
 const { shareAll, withModuleFederationPlugin } = require('@angular-architects/module-federation/webpack');
+require('dotenv').config();
 
 module.exports = withModuleFederationPlugin({
 
   name: 'host-app',
 
   remotes: {
-    //'dailyOperation': environment.BOPS_REMOTE_ENTRY,  // Remote MFE URL
-    'dailyOperation': "http://localhost:4201/remoteEntry.js",
+    'dailyOperation': process.env.BOPS_REMOTE_ENTRY,  // Remote MFE URL
   },
   exposes: {
     './AuthService': './src/app/service/auth.service.ts' , // Exposing AuthService for microfrontends

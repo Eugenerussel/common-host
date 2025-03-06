@@ -4,7 +4,7 @@ import { HomeComponent } from './component/home/home.component';
 import { ViewPortComponent } from './component/view-port/view-port.component';
 import { CallbackComponent } from './component/callback/callback.component';
 import { AuthGuard } from './service/auth.guard';
-import { environment } from './environment/environment';
+import { environment } from '../environments/environment';
 
 export const routes: Routes = [
     {path:'',redirectTo:'/login',pathMatch:'full'},
